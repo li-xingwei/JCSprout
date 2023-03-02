@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: JCSprout
+
+logging:
+  level:
+    root: INFO
