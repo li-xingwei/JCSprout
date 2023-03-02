@@ -5,35 +5,36 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.locks.LockSupport;
 
-import static com.crossoverjie.concurrent.interrupt.ThreadInterruptTestDemo03.flag01;
-
 /**
  * @author lixingwei
  * @date 2023/3/2 14:42
  */
-public class ThreadInterruptTestDemo03 {
-    private static final Logger log = LoggerFactory.getLogger(ThreadInterruptTestDemo03.class);
-    public static volatile boolean flag01 = true;
+public class ThreadInterruptTestDemo01 {
+    private static final Logger log = LoggerFactory.getLogger(ThreadInterruptTestDemo02.class);
+    public static volatile boolean flag = true;
+
     public static void main(String[] args) throws InterruptedException {
-        Thread t = new ThreadDemo();
+        Thread t = new ThreadDemo01();
         t.start();
         t.interrupt();
         Thread.sleep(2000);
         log.info("主线程睡眠结束！");
-        flag01 = false;
-        // 主线程休眠3秒
-        LockSupport.parkNanos(3 * 1000 * 1000 *1000L);
+        flag = false;
+        // 主线程休眠5秒
+        LockSupport.parkNanos(5 * 1000 * 1000 * 1000L);
         log.info("此时线程状态：{}", t.getState());
         log.info("结束线程等待状态");
         // LockSupport.unpark(t);
         LockSupport.unpark(t);
     }
 }
-class ThreadDemo extends Thread {
-    private static final Logger log = LoggerFactory.getLogger(ThreadDemo.class);
+
+class ThreadDemo01 extends Thread {
+    private static final Logger log = LoggerFactory.getLogger(ThreadDemo02.class);
+
     @Override
     public void run() {
-        while (flag01) {
+        while (ThreadInterruptTestDemo01.flag) {
         }
         try {
             Thread.sleep(10000);
